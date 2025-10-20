@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Clinical Record Service API
+  description: REST API for managing veterinary clinical records
+  version: 1.0.0
+  contact:
+    name: RiaVet Team
+    email: support@riavet.com
+    url: https://www.riavet.com
+
+servers:
+  - url: http://localhost:8082
+    description: Local development server
+
+paths:
+  /api/v1/records:
+    post:
+      summary: Create a new clinical record
+      description: Creates a new clinical record for a patient
+      operationId: createClinicalRecord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClinicalRecordRequest'
+      responses:
+        '201':
+          description: Clinical record created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClinicalRecordResponse'
+        '400':
+          description: Invalid input data
+        '500':
+          description: Internal server error
+    
+    get:
+      summary: Get clinical records
+      description: Retrieves all clinical records or filters by patient ID
+      operationId: getClinicalRecords
+      parameters:
+        - name: patientId
+          in: query
+          description: Patient ID to filter records
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Clinical records retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClinicalRecordResponse'
+        '500':
+          description: Internal server error
+
+  /api/v1/records/{id}:
+    get:
+      summary: Get clinical record by ID
+      description: Retrieves a specific clinical record by its ID
+      operationId: getClinicalRecordById
+      parameters:
+        - name: id
+          in: path
+          description: Clinical record ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Clinical record found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClinicalRecordResponse'
+        '404':
+          description: Clinical record not found
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    ClinicalRecordRequest:
+      type: object
+      required:
+        - patientId
+        - veterinarianId
+        - diagnosis
+      properties:
+        patientId:
+          type: string
+          format: uuid
+          description: The unique identifier of the patient
+        veterinarianId:
+          type: string
+          format: uuid
+          description: The unique identifier of the veterinarian
+        diagnosis:
+          type: string
+          description: The diagnosis for the patient
+          maxLength: 1000
+        procedures:
+          type: string
+          description: The procedures performed
+          maxLength: 2000
+        attachments:
+          type: string
+          description: Comma-separated URIs of attachments
+          maxLength: 1000
+
+    ClinicalRecordResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier of the clinical record
+        patientId:
+          type: string
+          format: uuid
+          description: The unique identifier of the patient
+        veterinarianId:
+          type: string
+          format: uuid
+          description: The unique identifier of the veterinarian
+        diagnosis:
+          type: string
+          description: The diagnosis for the patient
+        procedures:
+          type: string
+          description: The procedures performed
+        attachments:
+          type: string
+          description: Comma-separated URIs of attachments
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp when the record was created

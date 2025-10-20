@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run Agenda Service",
+			"type": "shell",
+			"command": "./gradlew bootRun",
+			"group": "run",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

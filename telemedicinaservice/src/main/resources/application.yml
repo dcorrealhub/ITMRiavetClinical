@@ -1,0 +1,59 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: telemedicina-service
+  
+  # Configuración por defecto para H2 (desarrollo)
+  datasource:
+    url: jdbc:h2:mem:telemedicinadb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  # Configuración para PostgreSQL (comentada por defecto)
+  # datasource:
+  #   url: jdbc:postgresql://localhost:5432/telemedicinadb
+  #   username: postgres
+  #   password: postgres
+  #   driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      # hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.riavet.telemedicinaservice: DEBUG
+    org.springframework.web: DEBUG
+
+---
+# Perfil para PostgreSQL
+spring:
+  config:
+    activate:
+      on-profile: postgres
+  datasource:
+    url: jdbc:postgresql://localhost:5432/telemedicinadb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
