@@ -4,19 +4,12 @@ server:
 spring:
   application:
     name: clinical-record-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/clinicaldb
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/clinicaldb
+      # Para autenticación:
+      # uri: mongodb://username:password@localhost:27017/clinicaldb
+      auto-index-creation: true
 
 springdoc:
   api-docs:
@@ -26,6 +19,5 @@ springdoc:
 
 logging:
   level:
-    com.riavet.clinicalrecordservice: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    '[com.riavet.clinicalrecordservice]': DEBUG
+    '[org.springframework.data.mongodb]': DEBUG

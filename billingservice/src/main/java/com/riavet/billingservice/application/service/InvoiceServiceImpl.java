@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,6 +41,41 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = invoiceRepository.findById(id)
                 .orElseThrow(() -> new InvoiceNotFoundException("Invoice not found with id: " + id));
         return invoiceMapper.toResponse(invoice);
+    }
+
+    @Override
+    public InvoiceResponse updateInvoice(UUID id, InvoiceRequest request) {
+        Invoice existingInvoice = invoiceRepository.findById(id)
+                .orElseThrow(() -> new InvoiceNotFoundException("Invoice not found with id: " + id));
+        
+        // Update the existing invoice with new data
+        existingInvoice.setPatientId(request.getPatientId());
+        existingInvoice.setTotal(request.getTotal());
+        existingInvoice.setItems(request.getItems());
+        
+        // Update status if provided
+        if (request.getStatus() != null && !request.getStatus().trim().isEmpty()) {
+            try {
+                Invoice.InvoiceStatus status = Invoice.InvoiceStatus.valueOf(request.getStatus().toUpperCase());
+                existingInvoice.setStatus(status);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + request.getStatus() + 
+                    ". Valid values are: DRAFT, SENT, PAID, CANCELED");
+            }
+        }
+        
+        existingInvoice.setUpdatedAt(LocalDateTime.now()); // Force update timestamp
+        
+        Invoice updatedInvoice = invoiceRepository.save(existingInvoice);
+        return invoiceMapper.toResponse(updatedInvoice);
+    }
+
+    @Override
+    public void deleteInvoice(UUID id) {
+        Invoice existingInvoice = invoiceRepository.findById(id)
+                .orElseThrow(() -> new InvoiceNotFoundException("Invoice not found with id: " + id));
+        
+        invoiceRepository.delete(existingInvoice);
     }
 
     public static class InvoiceNotFoundException extends RuntimeException {

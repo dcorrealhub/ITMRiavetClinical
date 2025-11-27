@@ -61,4 +61,34 @@ public class InvoiceController {
         InvoiceResponse invoice = invoiceService.getInvoiceById(id);
         return ResponseEntity.ok(invoice);
     }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update an existing invoice", description = "Updates an existing invoice with the provided details")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Invoice updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "404", description = "Invoice not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<InvoiceResponse> updateInvoice(
+            @Parameter(description = "Invoice ID", required = true)
+            @PathVariable UUID id,
+            @Valid @RequestBody InvoiceRequest request) {
+        InvoiceResponse response = invoiceService.updateInvoice(id, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete an invoice", description = "Deletes an existing invoice by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Invoice deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Invoice not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Void> deleteInvoice(
+            @Parameter(description = "Invoice ID", required = true)
+            @PathVariable UUID id) {
+        invoiceService.deleteInvoice(id);
+        return ResponseEntity.noContent().build();
+    }
 }

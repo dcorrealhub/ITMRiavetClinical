@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -16,10 +16,10 @@ import java.util.UUID;
 public class ClinicalRecordRequest {
 
     @NotNull(message = "Patient ID is required")
-    private UUID patientId;
+    private String patientId;
 
     @NotNull(message = "Veterinarian ID is required")
-    private UUID veterinarianId;
+    private String veterinarianId;
 
     @NotBlank(message = "Diagnosis is required")
     private String diagnosis;
@@ -27,4 +27,14 @@ public class ClinicalRecordRequest {
     private String procedures;
 
     private String attachments;
+
+    // Nuevos campos para órdenes médicas
+    private String medicalOrders;
+
+    private String prescription;
+
+    private LocalDateTime followUpDate;
+
+    @Builder.Default
+    private String status = "ACTIVE";
 }

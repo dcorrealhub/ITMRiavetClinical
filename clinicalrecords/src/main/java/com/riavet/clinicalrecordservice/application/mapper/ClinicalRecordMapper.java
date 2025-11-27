@@ -22,6 +22,10 @@ public class ClinicalRecordMapper {
                 .diagnosis(request.getDiagnosis())
                 .procedures(request.getProcedures())
                 .attachments(request.getAttachments())
+                .medicalOrders(request.getMedicalOrders())
+                .prescription(request.getPrescription())
+                .followUpDate(request.getFollowUpDate())
+                .status(request.getStatus())
                 .build();
     }
 
@@ -38,6 +42,10 @@ public class ClinicalRecordMapper {
                 .procedures(entity.getProcedures())
                 .attachments(entity.getAttachments())
                 .createdAt(entity.getCreatedAt())
+                .medicalOrders(entity.getMedicalOrders())
+                .prescription(entity.getPrescription())
+                .followUpDate(entity.getFollowUpDate())
+                .status(entity.getStatus())
                 .build();
     }
 

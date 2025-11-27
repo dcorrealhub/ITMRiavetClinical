@@ -5,9 +5,9 @@ spring:
   application:
     name: patient-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/patientdb
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: desarrollador
+    password: desarrollador
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

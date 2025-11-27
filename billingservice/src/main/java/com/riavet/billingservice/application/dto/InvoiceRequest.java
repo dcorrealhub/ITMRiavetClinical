@@ -24,4 +24,6 @@ public class InvoiceRequest {
     private BigDecimal total;
 
     private String items;
+    
+    private String status;
 }

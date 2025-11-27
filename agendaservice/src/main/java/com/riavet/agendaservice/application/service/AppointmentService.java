@@ -2,6 +2,7 @@ package com.riavet.agendaservice.application.service;
 
 import com.riavet.agendaservice.application.dto.AppointmentRequest;
 import com.riavet.agendaservice.application.dto.AppointmentResponse;
+import com.riavet.agendaservice.application.dto.AppointmentUpdateRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +17,8 @@ public interface AppointmentService {
     List<AppointmentResponse> getAppointmentsByVeterinarian(UUID veterinarianId);
 
     Optional<AppointmentResponse> getAppointmentById(UUID id);
+
+    AppointmentResponse updateAppointmentStatus(UUID appointmentId, AppointmentUpdateRequest request);
+
+    AppointmentResponse cancelAppointment(UUID appointmentId, String reason);
 }

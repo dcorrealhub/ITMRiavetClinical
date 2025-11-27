@@ -1,13 +1,13 @@
 # Clinical Record Service
 
 ## Descripción
-Microservicio REST para la gestión de registros clínicos veterinarios desarrollado con Java 17 y Spring Boot 3.2.0, implementando arquitectura hexagonal (Clean Architecture).
+Microservicio REST para la gestión de registros clínicos veterinarios desarrollado con Java 17 y Spring Boot 3.2.0, implementando arquitectura hexagonal (Clean Architecture). **Actualizado para usar MongoDB y consultas de órdenes médicas.**
 
 ## Tecnologías Utilizadas
 - **Java 17**
 - **Spring Boot 3.2.0**
-- **Spring Data JPA**
-- **PostgreSQL**
+- **Spring Data MongoDB**
+- **MongoDB**
 - **SpringDoc OpenAPI (Swagger)**
 - **Lombok**
 - **Gradle**
@@ -29,9 +29,16 @@ com.riavet.clinicalrecordservice/
 │   │   ├── input/       # Controladores REST
 │   │   └── output/      # Implementación de repositorios
 │   ├── configuration/   # Configuraciones
-│   └── persistence/     # Repositorios JPA
+│   └── persistence/     # Repositorios MongoDB
 └── ClinicalRecordServiceApplication.java
 ```
+
+## Nuevas Características - Órdenes Médicas
+- **Órdenes médicas**: Campo para almacenar prescripciones y órdenes
+- **Prescripciones**: Medicamentos y tratamientos recetados
+- **Fechas de seguimiento**: Control de citas de seguimiento
+- **Estados**: Gestión de estados (ACTIVE, COMPLETED, etc.)
+- **Consultas avanzadas**: Filtrado por veterinario, paciente y estado
 
 ## Endpoints Disponibles
 
@@ -41,11 +48,15 @@ com.riavet.clinicalrecordservice/
 - **Body**:
 ```json
 {
-  "patientId": "uuid",
-  "veterinarianId": "uuid",
+  "patientId": "string",
+  "veterinarianId": "string",
   "diagnosis": "string",
   "procedures": "string",
-  "attachments": "string"
+  "attachments": "string",
+  "medicalOrders": "string",
+  "prescription": "string",
+  "followUpDate": "2024-01-15T10:30:00",
+  "status": "ACTIVE"
 }
 ```
 - **Response**: `201 Created`
@@ -54,32 +65,44 @@ com.riavet.clinicalrecordservice/
 - **GET** `/api/v1/records`
 - **Query Parameters**:
   - `patientId` (opcional): Filtrar por ID del paciente
+  - `status` (opcional): Filtrar por estado
 - **Response**: `200 OK`
 
 ### 3. Consultar Registro por ID
 - **GET** `/api/v1/records/{id}`
 - **Path Parameters**:
-  - `id`: UUID del registro clínico
+  - `id`: ID del registro clínico
 - **Response**: `200 OK` o `404 Not Found`
 
-## Configuración de Base de Datos
-El servicio requiere una base de datos PostgreSQL. Configuración por defecto:
+### 4. Consultar Registros por Veterinario
+- **GET** `/api/v1/records/veterinarian/{veterinarianId}`
+- **Path Parameters**:
+  - `veterinarianId`: ID del veterinario
+- **Response**: `200 OK`
+
+## Configuración de Base de Datos MongoDB
+El servicio requiere MongoDB. Configuración por defecto:
 - **Host**: localhost
-- **Puerto**: 5432
+- **Puerto**: 27017
 - **Base de datos**: clinicaldb
-- **Usuario**: postgres
-- **Contraseña**: postgres
+- **URI**: mongodb://localhost:27017/clinicaldb
+
+### Configuraciones Adicionales
+Ver el archivo `MONGODB_CONFIG.md` para ejemplos de:
+- Conexión con autenticación
+- MongoDB Atlas (Cloud)
+- Docker Compose setup
 
 ## Ejecución
 
 ### Prerequisitos
 1. Java 17
-2. PostgreSQL 13+
+2. MongoDB 6.0+
 3. Gradle 7.x+
 
 ### Pasos para ejecutar
 1. Clonar el repositorio
-2. Configurar la base de datos PostgreSQL
+2. Instalar y ejecutar MongoDB
 3. Ejecutar el comando:
 ```bash
 ./gradlew bootRun
@@ -95,17 +118,30 @@ Una vez que el servicio esté ejecutándose, la documentación interactiva de la
 ## Modelo de Datos
 
 ### ClinicalRecord
-```java
+```json
 {
-  "id": "UUID",
-  "patientId": "UUID",
-  "veterinarianId": "UUID", 
-  "diagnosis": "String",
-  "procedures": "String",
-  "attachments": "String",
+  "id": "string (MongoDB ObjectId)",
+  "patientId": "string",
+  "veterinarianId": "string", 
+  "diagnosis": "string",
+  "procedures": "string",
+  "attachments": "string",
+  "medicalOrders": "string",
+  "prescription": "string",
+  "followUpDate": "LocalDateTime",
+  "status": "string",
   "createdAt": "LocalDateTime"
 }
 ```
+
+## Consultas de Órdenes Médicas
+El servicio ahora soporta consultas avanzadas para órdenes médicas:
+
+1. **Por paciente y estado**: `GET /api/v1/records?patientId=123&status=ACTIVE`
+2. **Por veterinario**: `GET /api/v1/records/veterinarian/456`
+3. **Por estado específico**: `GET /api/v1/records?status=COMPLETED`
+4. **Búsqueda en órdenes médicas**: Disponible en el repositorio MongoDB
+5. **Búsqueda en diagnósticos**: Búsqueda de texto con expresiones regulares
 
 ## Manejo de Errores
 El servicio incluye un manejo global de excepciones que retorna respuestas estructuradas para:

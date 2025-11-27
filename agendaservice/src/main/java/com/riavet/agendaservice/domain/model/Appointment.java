@@ -27,8 +27,9 @@ public class Appointment {
     @Column(name = "patient_id", nullable = false, columnDefinition = "UUID")
     private UUID patientId;
 
-    @Column(name = "veterinarian_id", nullable = false, columnDefinition = "UUID")
-    private UUID veterinarianId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "veterinarian_id", nullable = false)
+    private Veterinarian veterinarian;
 
     @Column(name = "scheduled_at", nullable = false)
     private LocalDateTime scheduledAt;

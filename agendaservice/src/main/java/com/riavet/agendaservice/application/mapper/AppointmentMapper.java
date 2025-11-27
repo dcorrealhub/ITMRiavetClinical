@@ -3,18 +3,23 @@ package com.riavet.agendaservice.application.mapper;
 import com.riavet.agendaservice.application.dto.AppointmentRequest;
 import com.riavet.agendaservice.application.dto.AppointmentResponse;
 import com.riavet.agendaservice.domain.model.Appointment;
+import com.riavet.agendaservice.domain.model.Veterinarian;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class AppointmentMapper {
 
-    public Appointment toEntity(AppointmentRequest request) {
+    private final VeterinarianMapper veterinarianMapper;
+
+    public Appointment toEntity(AppointmentRequest request, Veterinarian veterinarian) {
         return Appointment.builder()
                 .patientId(request.getPatientId())
-                .veterinarianId(request.getVeterinarianId())
+                .veterinarian(veterinarian)
                 .scheduledAt(request.getScheduledAt())
                 .status(Appointment.AppointmentStatus.PENDING)
                 .build();
@@ -24,7 +29,8 @@ public class AppointmentMapper {
         return AppointmentResponse.builder()
                 .id(appointment.getId())
                 .patientId(appointment.getPatientId())
-                .veterinarianId(appointment.getVeterinarianId())
+                .veterinarianId(appointment.getVeterinarian().getId())
+                .veterinarian(veterinarianMapper.toResponse(appointment.getVeterinarian()))
                 .scheduledAt(appointment.getScheduledAt())
                 .status(appointment.getStatus())
                 .createdAt(appointment.getCreatedAt())

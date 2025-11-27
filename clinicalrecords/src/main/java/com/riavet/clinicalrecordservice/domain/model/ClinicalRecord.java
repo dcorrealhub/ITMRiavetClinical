@@ -1,17 +1,17 @@
 package com.riavet.clinicalrecordservice.domain.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Entity
-@Table(name = "clinical_records")
+@Document(collection = "clinical_records")
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,25 +19,38 @@ import java.util.UUID;
 public class ClinicalRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
 
-    @Column(name = "patient_id", nullable = false)
-    private UUID patientId;
+    @Field("patient_id")
+    private String patientId;
 
-    @Column(name = "veterinarian_id", nullable = false)
-    private UUID veterinarianId;
+    @Field("veterinarian_id")
+    private String veterinarianId;
 
-    @Column(name = "diagnosis", nullable = false, length = 1000)
+    @Field("diagnosis")
     private String diagnosis;
 
-    @Column(name = "procedures", length = 2000)
+    @Field("procedures")
     private String procedures;
 
-    @Column(name = "attachments", length = 1000)
+    @Field("attachments")
     private String attachments;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreatedDate
+    @Field("created_at")
     private LocalDateTime createdAt;
+
+    // Nuevos campos específicos para órdenes médicas
+    @Field("medical_orders")
+    private String medicalOrders;
+
+    @Field("prescription")
+    private String prescription;
+
+    @Field("follow_up_date")
+    private LocalDateTime followUpDate;
+
+    @Field("status")
+    @Builder.Default
+    private String status = "ACTIVE";
 }

@@ -4,19 +4,24 @@ import com.riavet.clinicalrecordservice.domain.model.ClinicalRecord;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface ClinicalRecordRepository {
     
     ClinicalRecord save(ClinicalRecord clinicalRecord);
     
-    Optional<ClinicalRecord> findById(UUID id);
+    Optional<ClinicalRecord> findById(String id);
     
     List<ClinicalRecord> findAll();
     
-    List<ClinicalRecord> findByPatientId(UUID patientId);
+    List<ClinicalRecord> findByPatientId(String patientId);
     
-    void deleteById(UUID id);
+    List<ClinicalRecord> findByVeterinarianId(String veterinarianId);
     
-    boolean existsById(UUID id);
+    List<ClinicalRecord> findByStatus(String status);
+    
+    List<ClinicalRecord> findByPatientIdAndStatus(String patientId, String status);
+    
+    void deleteById(String id);
+    
+    boolean existsById(String id);
 }

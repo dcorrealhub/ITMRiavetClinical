@@ -13,4 +13,8 @@ public interface InvoiceService {
     List<InvoiceResponse> getAllInvoices();
     
     InvoiceResponse getInvoiceById(UUID id);
+    
+    InvoiceResponse updateInvoice(UUID id, InvoiceRequest request);
+    
+    void deleteInvoice(UUID id);
 }

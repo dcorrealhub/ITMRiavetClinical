@@ -18,6 +18,7 @@ public class AppointmentResponse {
     private UUID id;
     private UUID patientId;
     private UUID veterinarianId;
+    private VeterinarianResponse veterinarian;
     private LocalDateTime scheduledAt;
     private Appointment.AppointmentStatus status;
     private LocalDateTime createdAt;
