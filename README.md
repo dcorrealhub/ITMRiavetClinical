@@ -35,6 +35,18 @@ La solución está compuesta por varios microservicios que interactúan entre s�
 
 - **Lenguaje:** Java 17  
 - **Framework:** Spring Boot 3.2.0  
+- **FrontReact:** React
+## 🏗️ Tecnologías
+
+| Tecnología | Versión | Uso |
+|------------|---------|-----|
+| React | 19.x | Framework UI |
+| TypeScript | 4.9.x | Tipado estático |
+| Tailwind CSS | 3.4.x | Estilos |
+| Axios | 1.x | Cliente HTTP |
+| React Router | 7.x | Navegación |
+| date-fns | 4.x | Manejo de fechas |
+  
 - **Arquitectura:** Clean Architecture / Hexagonal  
 - **Base de datos:** PostgreSQL  
 - **Gestor de dependencias:** Gradle  

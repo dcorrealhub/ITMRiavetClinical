@@ -94,8 +94,7 @@ const ApiTest: React.FC = () => {
         <h3 className="text-lg font-semibold text-blue-900 mb-2">💡 Información</h3>
         <ul className="text-sm text-blue-800 space-y-1">
           <li><strong>Backend:</strong> http://localhost:8082</li>
-          <li><strong>Sin proxy</strong> - Conexión directa</li>
-          <li><strong>CORS:</strong> Manejado desde navegador/extensión</li>
+          <li><strong>Conexión directa</strong> - Sin configuración especial</li>
         </ul>
       </div>
     </div>

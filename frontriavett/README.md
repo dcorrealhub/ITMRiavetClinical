@@ -14,7 +14,6 @@ Sistema web profesional para gestionar registros clínicos veterinarios. Interfa
 - ✅ **Validación en Tiempo Real** - Formularios con validación instantánea
 - 🎨 **UI Profesional** - Diseño médico con paleta de colores apropiada
 - 📱 **Responsive** - Funciona perfectamente en desktop, tablet y móvil
-- 🔄 **Manejo de CORS** - Proxy configurado para desarrollo sin problemas
 
 ## 🚀 Inicio Rápido
 
@@ -44,7 +43,7 @@ npm start
 ## 📚 Documentación
 
 - **[📖 RESUMEN_COMPLETO.md](./RESUMEN_COMPLETO.md)** - Guía completa del proyecto
-- **[🔧 TROUBLESHOOTING.md](./TROUBLESHOOTING.md)** - Solución de problemas CORS y API
+- **[🔧 TROUBLESHOOTING.md](./TROUBLESHOOTING.md)** - Solución de problemas y API
 - **[📦 INSTALL.md](./INSTALL.md)** - Guía de instalación detallada
 - **[⚡ COMANDOS_UTILES.md](./COMANDOS_UTILES.md)** - Comandos para desarrollo
 

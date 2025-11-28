@@ -26,7 +26,7 @@ fi
 
 echo "✅ Servidor detenido"
 echo ""
-echo "🚀 Iniciando servidor con proxy configurado..."
+echo "🚀 Iniciando servidor de desarrollo..."
 echo ""
 
 # Iniciar el servidor
